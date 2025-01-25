@@ -1,0 +1,111 @@
+#wholeGameArea {
+    width: 100%;
+    max-width: 500px;
+    background-color: #b2b2b2;
+    margin: 100px auto 20px;
+    padding: 40px 30px 70px;
+    border-radius: 10px;
+}
+
+h1{
+    text-align: center;
+    border: 2px solid black;
+}
+
+.mainDisplayBox{
+    text-align: center;
+    border: 2px solid black;
+}
+
+#upperBox{
+    text-align: center;
+    border: 2px solid black;
+}
+
+#lowerBox{
+    text-align: center;
+    border: 2px solid black;
+}
+
+
+
+
+
+
+
+.characterCards{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flip-card {
+    background-color: transparent;
+    width: 200px;
+    height: 220px;
+    border: 1px solid #f1f1f1;
+    padding: 10px 0 0 0;
+    margin: 10px 20px 20px 20px;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  }
+  
+  /* This container is needed to position the front and back side */
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  /* Do an horizontal flip when you move the mouse over the flip box container */
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  /* Position the front and back side */
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+  }
+  
+  /* Style the front side (fallback if image is missing) */
+  .flip-card-front {
+    background-color: #bbb;
+    color: black;
+  }
+  
+  /* Style the back side */
+  .flip-card-back {
+    background-color: dodgerblue;
+    color: white;
+    transform: rotateY(180deg);
+  }
+
+
+
+
+
+
+  #lowerBox button{         /* button appearance */
+    display: inline-block;
+    align-items: center;
+    height: 50px;
+    width: 100px;
+    margin: 20px;
+    background-color: #d6ccc2;
+    box-shadow: 2px 2px 0;
+  }
+
+
+
+
+
+  #upperBoxText{           /* text area */
+    text-align: center;
+    border: 2px solid black;
+  }
