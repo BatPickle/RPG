@@ -12,12 +12,17 @@ const playerCharacter = {
 //Button Controls
 
 let btn1 = document.getElementById("btn1");
+/* let btn1Clicked = btn1 = false; */
 let btn2 = document.getElementById("btn2");
+/* let btn2Clicked = btn2 = false; */
 let btn3 = document.getElementById("btn3");
+/* let btn3Clicked = btn3 = false; */
 let btn4 = document.getElementById("btn4");
+/* let btn4Clicked = btn4 = false; */
 let btn5 = document.getElementById("btn5");
+/* let btn5Clicked = btn5 = false; */
 let btn6 = document.getElementById("btn6");
-
+/* let btn6Clicked = btn6 = false; */
 
 
 //this will save and load data at the same time
@@ -68,7 +73,26 @@ function warriorStartGame() {
 }
 
 
+function shipsHavenBtns() {
+    btn1.style.backgroundColor = "#a8dadc";
+    btn1.textContent = "Merchant";
+    btn2.style.backgroundColor = "#bbd0ff";
+    btn2.textContent = "Blacksmith";
+    btn3.style.backgroundColor = "#f49cbb";
+    btn3.textContent = "Bard";
+    btn4.style.backgroundColor = "#83c5be";
+    btn4.textContent = "Town Guard";
+    btn5.style.backgroundColor = "#4a5759";
+    btn5.textContent = "Dockmen";
+    btn6.style.backgroundColor = "#a3b18a";
+    btn6.textContent = "▶";
 
+    btn1.addEventListener("click",shipsHavenMerchant);
+    btn2.addEventListener("click",shipsHavenBlacksmith);
+    btn3.addEventListener("click",shipsHavenBard);
+    btn4.addEventListener("click",shipsHavenTownGuard);
+    btn5.addEventListener("click",shipsHavenDockmen);
+}
 
 // GAME START
 
@@ -83,22 +107,14 @@ function gameStart() {
     upperBoxText.style.width = "490px";
     upperBoxText.style.fontSize = "2rem";
 
-    btn6.style.backgroundColor = "#a3b18a";  //all button styles can be turned into functions
+    /* btn6.style.backgroundColor = "#a3b18a"; */
     btn6.textContent = "▶";
-    btn6.style.fontSize = "1rem";
-
-    btn6.onclick = () => upperBoxText.value += "\n\n Select a location to travel!", //trying to add on with ,
-    btn1.style.backgroundColor = "#a8dadc";  //WORKING ON CURRENTLY!!! create functions for travel locations for each button
-   btn1.textContent = "Merchant";
-    btn2.style.backgroundColor = "#bbd0ff";
-    btn2.textContent = "Blacksmith";
-    btn3.style.backgroundColor = "#f49cbb";  // These aren't appearing after the onclick()
-    btn3.textContent = "Bard";
-    btn4.style.backgroundColor = "#83c5be";
-    btn4.textContent = "Town Guard";
-    btn5.style.backgroundColor = "#4a5759";
-    btn5.textContent = "Dockmen";
+    btn6.addEventListener("click", function() {     //allows for text to change THEN run shipsHavenBtns()
+        upperBoxText.value += "\n\n Select a location to travel!"
+        shipsHavenBtns()
+    })
 }
+  
 
 
 
@@ -130,4 +146,45 @@ const shopItems = {
         gold: 120,
         defense: 12
     }
+}
+
+
+
+//Town Locations
+
+function shipsHavenMerchant(){
+    upperBoxText.value += "\n\n What can I get for ya!";
+
+
+    btn1.textContent = "Light Tunic";
+    btn1.style.backgroundColor = "#c6ac8f"
+
+    
+    btn2.textContent = "Shabby Shoes";
+    btn2.style.backgroundColor = "#c6ac8f"
+
+    btn3.textContent = "Ragged Pants";
+    btn3.style.backgroundColor = "#c6ac8f"
+
+    btn4.textContent = "Leave";
+    btn5.textContent = "-";
+    btn6.textContent = "Purchase";
+
+    
+}
+
+function shipsHavenBlacksmith(){
+
+}
+
+function shipsHavenBard(){
+
+}
+
+function shipsHavenTownGuard(){
+
+}
+
+function shipsHavenDockmen(){
+
 }
