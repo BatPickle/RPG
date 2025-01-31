@@ -94,11 +94,13 @@ h1{
   #lowerBox button{         /* button appearance */
     display: inline-block;
     align-items: center;
-    height: 50px;
-    width: 100px;
+    height: 60px;
+    width: 110px;
     margin: 20px;
     background-color: #d6ccc2;
     box-shadow: 2px 2px 0;
+    font-size: 1.3em;
+    font-family: monospace;
   }
 
 
