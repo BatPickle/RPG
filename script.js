@@ -7,11 +7,163 @@
 // shipsHavenDockmen()      : returns to the Ship's Haven Dockmen
 // shipsHavenTownGuard()    : returns to the Ship's Haven Town Guard
 // shopBtns()               : adds the shop buttons to the lower screen - needs to be more modular though
+//addItemsToShop ()         : add item in conjunction with item1 to shops
+
+////// FUNCTIONS///////
+
+function addItemsToShop(item1,item2,item3) {
+    btn1.textContent = item1.name;
+    btn1.style.backgroundColor = "#c6ac8f"
+    shopBtns(item1, item2, item3);
+
+    btn2.textContent = item2.name;
+    btn2.style.backgroundColor = "#c6ac8f"
+    shopBtns(item1, item2, item3);
+
+    btn3.textContent = item3.name;
+    btn3.style.backgroundColor = "#c6ac8f"
+    shopBtns(item1, item2, item3);
+
+    btn4.textContent = "Leave";
+    btn4.style.backgroundColor = "#8ecae6"
+    shopBtns(item1, item2, item3);
+
+    btn5.textContent = `${playerCharacter.gold}💰`;
+    btn5.style.backgroundColor = "#e76f51"
+    shopBtns(item1, item2, item3);
+
+    btn6.textContent = "Purchase";
+    btn6.style.backgroundColor = "#84a98c"
+    shopBtns(item1, item2, item3);
+}
+
+function shopBtns(item1, item2, item3) {
+
+    function shopItem1() {
+        console.log("A");
+        playerCharacter.selectedItem = "btn1";
+        upperBoxText.innerHTML += `<br/><br/> ${item1.name}`
+        upperBoxText.innerHTML += `<br/>   Gold: ${item1.gold}`
+        upperBoxText.innerHTML += `<br/>   Defense: ${item1.armor}`
+        btn1.style.background = "grey";
+        btn2.style.background = "#c6ac8f"
+        btn3.style.background = "#c6ac8f"
+        scrollToBottom(upperBoxText);
+    }
+
+    function shopItem2() {
+        console.log("B");
+        playerCharacter.selectedItem = "btn2";
+        upperBoxText.innerHTML += `<br/><br/> ${item2.name}`
+        upperBoxText.innerHTML += `<br/>   Gold: ${item2.gold}`
+        upperBoxText.innerHTML += `<br/>   Defense: ${item2.armor}`
+        btn1.style.background = "#c6ac8f";
+        btn2.style.background = "grey"
+        btn3.style.background = "#c6ac8f"
+        scrollToBottom(upperBoxText);
+    }
+
+    function shopItem3() {
+        console.log("C");
+        playerCharacter.selectedItem = "btn3";
+        upperBoxText.innerHTML += `<br/><br/> ${item3.name}`
+        upperBoxText.innerHTML += `<br/>   Gold: ${item3.gold}`
+        upperBoxText.innerHTML += `<br/>   Defense: ${item3.armor}`
+        btn1.style.background = "#c6ac8f";
+        btn2.style.background = "#c6ac8f"
+        btn3.style.background = "grey"
+        scrollToBottom(upperBoxText);
+    }
+
+    function shopLeave() {
+        console.log("D");
+        shipsHavenMain();
+    }
+
+    function shopGold() {
+        console.log("E");
+        playerCharacter.selectedItem = "btn5";
+    }
+
+    function shopPurchase() {
+        console.log("Purchase Clicked");
+        btn1.style.background = "#c6ac8f";
+        btn2.style.background = "#c6ac8f"
+        btn3.style.background = "#c6ac8f"
+        if (playerCharacter.selectedItem == "btn1") {
+            upperBoxText.innerHTML += "<br/><br/> Thank you for your purchase!"
+            scrollToBottom(upperBoxText);
+            playerCharacter.gold -= item1.gold;
+            playerCharacter.armor += item1.armor;
+            playerCharacter.inventory.push(item1.name);
+            btn5.textContent = `${playerCharacter.gold}💰`;
+            console.log(playerCharacter.gold);
+            console.log(playerCharacter.armor);
+        }
+        else if (playerCharacter.selectedItem == "btn2") {
+            upperBoxText.innerHTML += "<br/><br/> Thank you for your purchase!"
+            scrollToBottom(upperBoxText);
+            playerCharacter.gold -= item2.gold;
+            playerCharacter.armor += item2.armor;
+            playerCharacter.inventory.push(item2.name);
+            btn5.textContent = `${playerCharacter.gold}💰`;
+            console.log(playerCharacter.gold);
+            console.log(playerCharacter.armor);
+        }
+        else if (playerCharacter.selectedItem == "btn3") {
+            upperBoxText.innerHTML += "<br/><br/> Thank you for your purchase!"
+            scrollToBottom(upperBoxText);
+            playerCharacter.gold -= item3.gold;
+            playerCharacter.armor += item3.armor;
+            playerCharacter.inventory.push(item3.name);
+            btn5.textContent = `${playerCharacter.gold}💰`;
+            console.log(playerCharacter.gold);
+            console.log(playerCharacter.armor);
+        }
+        else {
+            console.log("please select an item first");
+            scrollToBottom(upperBoxText);
+        }
+        playerCharacter.selectedItem = null;
+        console.log(playerCharacter.selectedItem);
+    }
+
+    clearButtonEvents();
+
+    btn1.addEventListener("click", shopItem1);
+    btn2.addEventListener("click", shopItem2);
+    btn3.addEventListener("click", shopItem3);
+    btn4.addEventListener("click", shopLeave);
+    btn5.addEventListener("click", shopGold);
+    btn6.addEventListener("click", shopPurchase);
+
+}
 
 
+function clearButtonEvents() {  // creates a root copy of each btn, creates a clean slate without any eventListeners
+    btn1.replaceWith(btn1.cloneNode(true));
+    btn2.replaceWith(btn2.cloneNode(true));
+    btn3.replaceWith(btn3.cloneNode(true));
+    btn4.replaceWith(btn4.cloneNode(true));
+    btn5.replaceWith(btn5.cloneNode(true));
+    btn6.replaceWith(btn6.cloneNode(true));
 
+    // takes the copy and gives it the id back 
+    btn1 = document.getElementById("btn1");
+    btn2 = document.getElementById("btn2");
+    btn3 = document.getElementById("btn3");
+    btn4 = document.getElementById("btn4");
+    btn5 = document.getElementById("btn5");
+    btn6 = document.getElementById("btn6");
+}
 
-
+function assignButtonEvent(button, eventHandler, textContent, backgroundColor) {
+    button.removeEventListener("click", button._eventHandler); // Remove previous event listener if any
+    button.addEventListener("click", eventHandler); // Add new event listener
+    button._eventHandler = eventHandler; // Store the event handler reference for later removal
+    button.textContent = textContent; // Set button text content
+    button.style.backgroundColor = backgroundColor; // Set button background color
+}
 
 
 
@@ -53,30 +205,20 @@ function scrollToBottom(element) {
 
 
 
-function clearButtonEvents() {  // creates a root copy of each btn, creates a clean slate without any eventListeners
-    btn1.replaceWith(btn1.cloneNode(true));
-    btn2.replaceWith(btn2.cloneNode(true));
-    btn3.replaceWith(btn3.cloneNode(true));
-    btn4.replaceWith(btn4.cloneNode(true));
-    btn5.replaceWith(btn5.cloneNode(true));
-    btn6.replaceWith(btn6.cloneNode(true));
-
-    // takes the copy and gives it the id back 
-    btn1 = document.getElementById("btn1");
-    btn2 = document.getElementById("btn2");
-    btn3 = document.getElementById("btn3");
-    btn4 = document.getElementById("btn4");
-    btn5 = document.getElementById("btn5");
-    btn6 = document.getElementById("btn6");
-}
-
-
 //this will save and load data at the same time
 function saveLoadCharacter() {
     localStorage.setItem("playerCharacter", JSON.stringify(playerCharacter));//sets playerChacter into browser
     const storedObjectString = localStorage.getItem("playerCharacter");//grab playerCharacter from browser
     const storedPlayerCharacter = JSON.parse(storedObjectString);//json.parse to convert from string to object
     console.log(storedPlayerCharacter);
+}
+
+// Class Starts
+
+function warriorStartGame() {
+    Object.assign(playerCharacter, warriorStats);
+    saveLoadCharacter();
+    gameStart();
 }
 
 
@@ -113,18 +255,8 @@ const archerStats = {
 }
 
 
-// Class Starts
 
-function warriorStartGame() {
-    Object.assign(playerCharacter, warriorStats);
-    saveLoadCharacter();
-    gameStart();
-}
-
-
-
-
-        // SHIP'S HAVEN MAIN SCREEN
+// SHIP'S HAVEN MAIN SCREEN
 
 function shipsHavenMain() {
 
@@ -150,267 +282,49 @@ function shipsHavenMain() {
     btn6.addEventListener("click", playerInventoryDisplay);
 
 
-         // Merchant shop \\  
+    // Merchant shop \\  
 
     function shipsHavenMerchant() {
         upperBoxText.innerHTML += "<br/><br/> What can I get for ya!";
         scrollToBottom(upperBoxText);
 
-            //Items used in shop
+        //Items used in shop
         const item1 = shopItems.lightTunic;
         const item2 = shopItems.shabbyShoes;
         const item3 = shopItems.raggedPants;
-
-        btn1.textContent = item1.name;
-        btn1.style.backgroundColor = "#c6ac8f"
-        shopBtns();
-
-        btn2.textContent = item2.name;
-        btn2.style.backgroundColor = "#c6ac8f"
-        shopBtns();
-
-        btn3.textContent = item3.name;
-        btn3.style.backgroundColor = "#c6ac8f"
-        shopBtns();
-
-        btn4.textContent = "Leave";
-        btn4.style.backgroundColor = "#8ecae6"
-        shopBtns();
-
-        btn5.textContent = `${playerCharacter.gold}💰`;
-        btn5.style.backgroundColor = "#e76f51"
-        shopBtns();
-
-        btn6.textContent = "Purchase";
-        btn6.style.backgroundColor = "#84a98c"
-        shopBtns();
-
-
-        function shopBtns() {
-
-            function shopItem1() {
-                console.log("A");
-                playerCharacter.selectedItem = "btn1";
-                upperBoxText.innerHTML += `<br/><br/> ${item1.name}`
-                upperBoxText.innerHTML += `<br/>   Gold: ${item1.gold}`
-                upperBoxText.innerHTML += `<br/>   Defense: ${item1.armor}`
-                scrollToBottom(upperBoxText);
-            }
-
-            function shopItem2() {
-                console.log("B");
-                playerCharacter.selectedItem = "btn2";
-                upperBoxText.innerHTML += `<br/><br/> ${item2.name}`
-                upperBoxText.innerHTML += `<br/>   Gold: ${item2.gold}`
-                upperBoxText.innerHTML += `<br/>   Defense: ${item2.armor}`
-                scrollToBottom(upperBoxText);
-            }
-
-            function shopItem3() {
-                console.log("C");
-                playerCharacter.selectedItem = "btn3";
-                upperBoxText.innerHTML += `<br/><br/> ${item3.name}`
-                upperBoxText.innerHTML += `<br/>   Gold: ${item3.gold}`
-                upperBoxText.innerHTML += `<br/>   Defense: ${item3.armor}`
-                scrollToBottom(upperBoxText);
-            }
-
-            function shopLeave() {
-                console.log("D");
-                shipsHavenMain();
-            }
-
-            function shopGold() {
-                console.log("E");
-                playerCharacter.selectedItem = "btn5";
-            }
-
-            function shopPurchase() {
-                console.log("Purchase Clicked");
-                if (playerCharacter.selectedItem == "btn1") {
-                    upperBoxText.innerHTML += "<br/><br/> Thank you for your purchase!"
-                    scrollToBottom(upperBoxText);
-                    playerCharacter.gold -= item1.gold;
-                    playerCharacter.armor += item1.armor;
-                    playerCharacter.inventory.push(item1.name);
-                    btn5.textContent = `${playerCharacter.gold}💰`;
-                    console.log(playerCharacter.gold);
-                    console.log(playerCharacter.armor);
-                }
-                else if (playerCharacter.selectedItem == "btn2") {
-                    upperBoxText.innerHTML += "<br/><br/> Thank you for your purchase!"
-                    scrollToBottom(upperBoxText);
-                    playerCharacter.gold -= item2.gold;
-                    playerCharacter.armor += item2.armor;
-                    playerCharacter.inventory.push(item2.name);
-                    btn5.textContent = `${playerCharacter.gold}💰`;
-                    console.log(playerCharacter.gold);
-                    console.log(playerCharacter.armor);
-                }
-                else if (playerCharacter.selectedItem == "btn3") {
-                    upperBoxText.innerHTML += "<br/><br/> Thank you for your purchase!"
-                    scrollToBottom(upperBoxText);
-                    playerCharacter.gold -= item3.gold;
-                    playerCharacter.armor += item3.armor;
-                    playerCharacter.inventory.push(item3.name);
-                    btn5.textContent = `${playerCharacter.gold}💰`;
-                    console.log(playerCharacter.gold);
-                    console.log(playerCharacter.armor);
-                }
-                else {
-                    console.log("please select an item first");
-                    scrollToBottom(upperBoxText);
-                }
-                playerCharacter.selectedItem = null;
-                console.log(playerCharacter.selectedItem);
-            }
-
-            clearButtonEvents();
-
-            btn1.addEventListener("click", shopItem1);
-            btn2.addEventListener("click", shopItem2);
-            btn3.addEventListener("click", shopItem3);
-            btn4.addEventListener("click", shopLeave);
-            btn5.addEventListener("click", shopGold);
-            btn6.addEventListener("click", shopPurchase);
-
-        }
+        addItemsToShop(item1,item2,item3)
     }
 
 
-                // Blacksmith shop \\
+    // Blacksmith shop \\
 
-    function travellingBlacksmith() {  // turn him into a travelling blacksmith with random items every time
-        console.log("2");
-
-        upperBoxText.innerHTML += "<br/><br/> What can I get for ya!";
+    function travellingBlacksmith() {
+        console.log("travellingBlacksmith");
+        upperBoxText.innerHTML += "<br/><br/> What can I do for you!";
         scrollToBottom(upperBoxText);
 
+        //Items used in shop
+        const item1 = shopItems.whetstone;
+        const item2 = shopItems.splinteryShield;
+        const item3 = shopItems.raggedPants;
+        addItemsToShop(item1,item2,item3)
+    }
 
-        btn1.textContent = "Light Tunic";
-        btn1.style.backgroundColor = "#c6ac8f"
-        blacksmithBtns();
-
-        btn2.textContent = "Shabby Shoes";
-        btn2.style.backgroundColor = "#c6ac8f"
-        blacksmithBtns();
-
-        btn3.textContent = "Ragged Pants";
-        btn3.style.backgroundColor = "#c6ac8f"
-        blacksmithBtns();
-
-        btn4.textContent = "Leave";
-        btn4.style.backgroundColor = "#8ecae6"
-        blacksmithBtns();
-
-        btn5.textContent = `${playerCharacter.gold}💰`;
-        btn5.style.backgroundColor = "#e76f51"
-        blacksmithBtns();
-
-        btn6.textContent = "Purchase";
-        btn6.style.backgroundColor = "#84a98c"
-        blacksmithBtns();
+    function shipsHavenBard() {
+        console.log("3");
+    }
 
 
-        function blacksmithBtns() {
+    // TOWN GUARD \\
 
-            function shopItem1() {
-                console.log("A");
-                playerCharacter.selectedItem = "btn1";
-                upperBoxText.innerHTML += "<br/><br/> Light Tunic"
-                upperBoxText.innerHTML += "<br/>   Gold: 90"
-                upperBoxText.innerHTML += "<br/>   Defense: 10"
-                scrollToBottom(upperBoxText);
-            }
+    function shipsHavenTownGuard() {
+        console.log("4");
 
-            function shopItem2() {
-                console.log("B");
-                playerCharacter.selectedItem = "btn2";
-                upperBoxText.innerHTML += "<br/><br/> Shabby Shoes"
-                upperBoxText.innerHTML += "<br/>   Gold: 50"
-                upperBoxText.innerHTML += "<br/>   Defense: 2"
-                scrollToBottom(upperBoxText);
-            }
 
-            function shopItem3() {
-                console.log("C");
-                playerCharacter.selectedItem = "btn3";
-                upperBoxText.innerHTML += "<br/><br/> Ragged Pants"
-                upperBoxText.innerHTML += "<br/>   Gold: 150"
-                upperBoxText.innerHTML += "<br/>   Defense: 8"
-                scrollToBottom(upperBoxText);
-            }
-
-            function shopLeave() {
-                console.log("D");
-                shipsHavenMain();
-            }
-
-            function shopGold() {
-                console.log("E");
-                playerCharacter.selectedItem = "btn5";
-            }
-
-            function shopPurchase() {
-                console.log("Purchase Clicked");
-                if (playerCharacter.selectedItem == "btn1") {
-                    upperBoxText.innerHTML += "<br/><br/> Thank you for your purchase!"
-                    scrollToBottom(upperBoxText);
-                    playerCharacter.gold -= shopItems.lightTunic.gold;
-                    playerCharacter.armor += shopItems.lightTunic.armor;
-                    playerCharacter.inventory.push(shopItems.lightTunic.name);
-                    btn5.textContent = `${playerCharacter.gold}💰`;
-                    console.log(playerCharacter.gold);
-                    console.log(playerCharacter.armor);
-                }
-                else if (playerCharacter.selectedItem == "btn2") {
-                    upperBoxText.innerHTML += "<br/><br/> Thank you for your purchase!"
-                    scrollToBottom(upperBoxText);
-                    playerCharacter.gold -= shopItems.shabbyShoes.gold;
-                    playerCharacter.armor += shopItems.shabbyShoes.armor;
-                    playerCharacter.inventory.push(shopItems.shabbyShoes.name);
-                    btn5.textContent = `${playerCharacter.gold}💰`;
-                    console.log(playerCharacter.gold);
-                    console.log(playerCharacter.armor);
-                }
-                else if (playerCharacter.selectedItem == "btn3") {
-                    upperBoxText.innerHTML += "<br/><br/> Thank you for your purchase!"
-                    scrollToBottom(upperBoxText);
-                    playerCharacter.gold -= shopItems.raggedPants.gold;
-                    playerCharacter.armor += shopItems.raggedPants.armor;
-                    playerCharacter.inventory.push(shopItems.raggedPants.name);
-                    btn5.textContent = `${playerCharacter.gold}💰`;
-                    console.log(playerCharacter.gold);
-                    console.log(playerCharacter.armor);
-                }
-                else {
-                    console.log("please select an item first");
-                    scrollToBottom(upperBoxText);
-                }
-                playerCharacter.selectedItem == null;
-                console.log(playerCharacter.selectedItem);
-            }
-
-            clearButtonEvents();
-
-            btn1.addEventListener("click", shopItem1);
-            btn2.addEventListener("click", shopItem2);
-            btn3.addEventListener("click", shopItem3);
-            btn4.addEventListener("click", shopLeave);
-            btn5.addEventListener("click", shopGold);
-            btn6.addEventListener("click", shopPurchase);
-
-        }
     }
 }
 
-function shipsHavenBard() {
-    console.log("3");
-}
 
-function shipsHavenTownGuard() {
-    console.log("4");
-}
 
 function shipsHavenDockmen() {
     console.log("5");
@@ -524,12 +438,12 @@ function gameStart() {
 
 
 
-                                // ITEMS \\
+// ITEMS \\
 const shopItems = {
-    lightTunic: {       name: "Light Tunic",        gold: 90,       armor: 10},
-    shabbyShoes: {      name: "Shabby Shoes",       gold: 50,       armor: 2,},
-    raggedPants: {      name: "Ragged Pants",       gold: 150,      armor: 8},
-    whetstone: {        name: "Whetstone",          gold: 20,       attack: 2},
-    splinteryShield: {  name: "Splintery Shield",   gold: 120,      armor: 12},
+    lightTunic: { name: "Light Tunic", gold: 90, armor: 10 },
+    shabbyShoes: { name: "Shabby Shoes", gold: 50, armor: 2, },
+    raggedPants: { name: "Ragged Pants", gold: 150, armor: 8 },
+    whetstone: { name: "Whetstone", gold: 20, attack: 2 },
+    splinteryShield: { name: "Splintery Shield", gold: 120, armor: 12 },
 }
 
